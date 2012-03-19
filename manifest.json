@@ -5,14 +5,11 @@
   "app": {
     "launch": {
       "local_path": "index.html",
-      "default_title": "News Ding"
+      "default_title": "News Ding",
       "icons": {
         "16": "icon_16.png",
         "128": "icon_128.png"
-  }
+      }
     }
-  },
-  "permissions": [
-
-  ]
+  }
 }
