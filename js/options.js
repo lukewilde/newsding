@@ -8,6 +8,10 @@ $(function(){
     setupControls();
 
     function setupInterface() {
+
+      $("input#numrows").val(localStorage["numrows"]);
+      $('#current-numrows').text($("input#numrows").val());
+
       $("input#numrows").bind("change", function() {
         $('#current-numrows').text($("input#numrows").val());
       });
