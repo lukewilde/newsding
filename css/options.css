@@ -1,3 +1,15 @@
 form label {
   display: block;
+  min-height: 100px;
 }
+
+form label {
+  margin-left: 49px;
+}
+
+form label strong {
+  display: block;
+  margin-left: 0px;
+}
+
+
