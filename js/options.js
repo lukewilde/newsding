@@ -5,7 +5,7 @@ $(function(){
     $inputs = $('#form :input');
 
     setupInterface();
-    setupListeners();
+    setupControls();
 
     function setupInterface() {
       $("input#numrows").bind("change", function() {
@@ -13,8 +13,10 @@ $(function(){
       });
     }
 
-    function setupListeners() {
-      $("input.submit").bind("click", saveOptions);
+    function setupControls() {
+      $base.find(".submit").bind("click", function(event) {
+        event.preventDefault();
+      });
     }
 
     function notifyUserDataIsSaved() {
