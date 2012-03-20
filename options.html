@@ -1,0 +1,24 @@
+<html>
+  <head><title>News Ding Options</title></head>
+  <body>
+
+    <h1>Favorite Colour:</h1>
+    <select id="colour">
+      <option value="red">red</option>
+      <option value="green">green</option>
+      <option value="blue">blue</option>
+      <option value="yellow">yellow</option>
+    </select>
+
+    <br>
+    <button class="submit">Save</button>
+    <p id="status"></p>
+    <script src="/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="/js/options.js" type="text/javascript"></script>
+  </body>
+  <script type="text/javascript">
+    $(function(){
+      $('body').options();
+    });
+  </script>
+</html>
