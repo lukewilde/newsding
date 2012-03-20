@@ -269,7 +269,7 @@
                 return true;
               }
               var field = $( this );
-              var prefix = self.href + targetFormId + field.attr( "name" ) + self.options.customKeyPrefix;
+              var prefix = field.attr( "name" ) + self.options.customKeyPrefix;
               var resque = self.browserStorage.get( prefix );
               if ( resque ) {
                 self.restoreFieldsData( field, resque );
