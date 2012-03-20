@@ -1,27 +1,46 @@
 $(function(){
   $.fn.options = function() {
 
+    var $base = $(this),
+    $inputs = $('#form :input');
+
     restoreOptions();
     setupControls();
+    setupListeners();
 
-    // Restores select box state to saved value from localStorage.
+    // Restores form state from localStorage.
     function restoreOptions() {
-      var favorite = localStorage["favorite_colour"];
-      if (!favorite) {
-        return;
-      }
 
-      var select = $("#colour");
-      $('select').val(favorite);
+      $inputs.each(function() {
+
+        var name = $(this).attr('name');
+
+        if (localStorage[name]) {
+          $(this).val(localStorage[name]);
+          console.log("loading: " + name + " as " + $(this).val());
+        } else {
+          console.log("No saved value for: " + name);
+        }
+      });
     }
 
     function setupControls() {
-      $("button.submit").bind("click", saveOptions);
+      $("input#numrows").bind("change", function() {
+        $('#current-numrows').text($("input#numrows").val());
+      });
+    }
+
+    function setupListeners() {
+      $("input.submit").bind("click", saveOptions);
     }
 
     function saveOptions() {
-      var colour = $('select option:selected').val();
-      localStorage["favorite_colour"] = colour;
+      $inputs.each(function() {
+        var name = $(this).attr('name');
+        console.log($(this), name);
+        localStorage[name] = $(this).val();
+      });
+      localStorage["sources"] = $('textarea sources').text();
       notifyUserDataIsSaved();
     }
 
@@ -30,8 +49,6 @@ $(function(){
       // Update status to let user know options were saved.
       var status = $("#status");
       status.text("Options Saved.");
-
-      console.log("saved");
 
       setTimeout(function() {
         status.text("");
