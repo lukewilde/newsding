@@ -4,27 +4,10 @@ $(function(){
     var $base = $(this),
     $inputs = $('#form :input');
 
-    restoreOptions();
-    setupControls();
+    setupInterface();
     setupListeners();
 
-    // Restores form state from localStorage.
-    function restoreOptions() {
-
-      $inputs.each(function() {
-
-        var name = $(this).attr('name');
-
-        if (localStorage[name]) {
-          $(this).val(localStorage[name]);
-          console.log("loading: " + name + " as " + $(this).val());
-        } else {
-          console.log("No saved value for: " + name);
-        }
-      });
-    }
-
-    function setupControls() {
+    function setupInterface() {
       $("input#numrows").bind("change", function() {
         $('#current-numrows').text($("input#numrows").val());
       });
@@ -32,16 +15,6 @@ $(function(){
 
     function setupListeners() {
       $("input.submit").bind("click", saveOptions);
-    }
-
-    function saveOptions() {
-      $inputs.each(function() {
-        var name = $(this).attr('name');
-        console.log($(this), name);
-        localStorage[name] = $(this).val();
-      });
-      localStorage["sources"] = $('textarea sources').text();
-      notifyUserDataIsSaved();
     }
 
     function notifyUserDataIsSaved() {

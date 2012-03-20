@@ -7,7 +7,7 @@
 
     <h1>News Ding Options:</h1>
 
-    <form name="news-ding-options">
+    <form id="news-ding-options">
 
       <label>
         Number of rows to be displayed on screen
@@ -35,8 +35,8 @@
 
       $('body').options();
 
-      $('form').sisyphus();
-      $('form').submit(function(event) {
+      $('#news-ding-options').sisyphus();
+      $('#news-ding-options').submit(function(event) {
         event.preventDefault();
       });
     });
