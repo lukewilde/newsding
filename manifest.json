@@ -3,6 +3,9 @@
   "version": "0.1",
   "description": "Get your news while it's ding.",
   "options_page": "options.html",
+  "permissions": [
+    "http://*/"
+  ],
   "app": {
     "launch": {
       "local_path": "index.html",
