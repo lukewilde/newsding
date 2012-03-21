@@ -9,14 +9,14 @@ $(function(){
       };
 
       // console.log(this.url);
+    $(options.sources).each(function() {
       $.getFeed({
-        url: options.sources[0].url,
+        url: this.url,
         success: function(feed) {
           console.log(feed);
         }
       });
-    // $(options.sources).each(function() {
-    // });
+    });
 
   };
 }(jQuery));
