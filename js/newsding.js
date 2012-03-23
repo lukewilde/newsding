@@ -11,11 +11,10 @@ $(function(){
     $(options.categories).each(function() {
       $(this.items).each(function() {
 
-         console.log($(this));
-        // $.getFeed({
+        // $.ajax({
         //   url: this.url,
         //   success: function(feed) {
-        //     console.log(feed);
+        //     console.log(this, feed);
         //   }
         // });
       });

@@ -4,20 +4,20 @@
 			"title": "science",
 			"items": [
 					{
-							"title": "PopSci",
-							"url": "http://www.popsci.com/rss.xml"
+						"title": "PopSci",
+						"url": "http://www.popsci.com/rss.xml"
 					},
 					{
-							"title": "Wired.co.uk",
-							"url": "http://www.wired.co.uk/rss"
+						"title": "Wired.co.uk",
+						"url": "http://www.wired.co.uk/rss"
 					},
 					{
-							"title": "Kurtzweil Ai",
-							"url": "http://www.kurzweilai.net/feeds"
+						"title": "Kurtzweil Ai",
+						"url": "http://www.kurzweilai.net/feed/atom"
 					},
 					{
-							"title": "Wired.com",
-							"url": "http://feeds.wired.com/wired/index"
+						"title": "Wired.com",
+						"url": "http://feeds.wired.com/wired/index"
 					}
 			]
 		},
@@ -25,16 +25,16 @@
 			"title": "Web Tech",
 			"items": [
 				{
-						"title": "Creative JS",
-						"url": "http://creativejs.com/feed/"
+					"title": "Creative JS",
+					"url": "http://creativejs.com/feed/"
 				},
 				{
-						"title": "The Register",
-						"url": "http://www.theregister.co.uk/headlines.atom"
+					"title": "The Register",
+					"url": "http://www.theregister.co.uk/headlines.atom"
 				},
 				{
-						"title": "NodeUp",
-						"url": "http://feeds.feedburner.com/NodeUp"
+					"title": "NodeUp",
+					"url": "http://feeds.feedburner.com/NodeUp"
 				}
 			]
 		},
@@ -42,12 +42,12 @@
 			"title": "Mobile",
 			"items": [
 				{
-						"title": "Android Guys",
-						"url": "http://feeds.feedburner.com/androidguyscom"
+					"title": "Android Guys",
+					"url": "http://feeds.feedburner.com/androidguyscom"
 				},
 				{
-						"title": "Gizmodo",
-						"url": "http://www.gizmodo.co.uk/feed/rss/"
+					"title": "Gizmodo",
+					"url": "http://www.gizmodo.co.uk/feed/rss/"
 				}
 			]
 		}
