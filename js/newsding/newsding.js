@@ -13,10 +13,10 @@ function(jQuery) {
     };
 
   function init() {
-    // var articles = loadSavedArticles();
-    // renderArticles(articles);
+    var articles = loadSavedArticles();
+    renderArticles(articles);
 
-    downloadArticles();
+    // downloadArticles();
   }
 
   function loadSavedArticles() {
@@ -31,19 +31,24 @@ function(jQuery) {
 
   function renderArticles(categories) {
 
-    $(categories).each(function() {
 
-      var $category = $(this);
 
-      $category.each(function() {
+      // console.log(categories);
+    $.each(categories, function() {
 
-        var $articles = $(this);
+      var feeds = this.feeds;
 
-        $category.each(function() {
+      $.each(feeds, function() {
 
-          $("body").append("<h3>" + item.title + "<h3>");
-          $("body").append(item.image);
-          $("body").append(item.pubdate);
+        var articles = this;
+
+        $("body").append("<h2>" + articles.title + "<h2>");
+
+        $.each(articles.items, function() {
+
+          $("body").append("<h3>" + this.title + "<h3>");
+          $("body").append(this.image);
+          // $("body").append("<span>" + this.description + "<span>");
         });
       });
     });
@@ -90,11 +95,12 @@ function(jQuery) {
       if (typeof savedArticles[categoryKey] == 'undefined') {
         savedArticles[categoryKey] = {};
         savedArticles[categoryKey].title = newsSource.category;
+        savedArticles[categoryKey].feeds = {};
       }
 
-    savedArticles[categoryKey][articleKey] = newsSource;
+    savedArticles[categoryKey].feeds[articleKey] = newsSource;
 
-    console.log(savedArticles);
+    // console.log(savedArticles);
     localStorage.categories = JSON.stringify(savedArticles);
   }
 
