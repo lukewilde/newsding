@@ -13,10 +13,8 @@
 
     <footer>ding.</footer>
 
-    <script src="/js/jquery-1.7.1.min.js" type="text/javascript"></script>
-    <script src="/js/jquery.tmpl.min.js" type="text/javascript"></script>
-    <script src="/js/jquery-jfeed.js" type="text/javascript"></script>
-    <script src="/js/newsding.js" type="text/javascript"></script>
+    </head>
+
   </body>
 
   <script id="news-item" type="text/x-jquery-tmpl">
@@ -26,9 +24,5 @@
     <article>
   </script>
 
-  <script type="text/javascript">
-    $(function(){
-      $('body').newsding();
-    });
-  </script>
+  <script data-main="js/newsding/main" src="js/lib/require.js"></script>
 </html>
