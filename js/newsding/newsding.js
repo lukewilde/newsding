@@ -13,34 +13,41 @@ function(jQuery) {
     };
 
   function init() {
-    // loadSavedArticles();
+    // var articles = loadSavedArticles();
+    // renderArticles(articles);
+
     downloadArticles();
   }
 
   function loadSavedArticles() {
     // Load old data.
-    if (typeof localStorage.feeds !== 'undefined') {
-      return $.parseJSON(localStorage.feeds);
+    if (typeof localStorage.categories !== 'undefined') {
+      return $.parseJSON(localStorage.categories);
     } else {
     // Or create fresh object.
       return {};
     }
   }
 
-  function renderArticles(category, $newsItems) {
-
-    // UDPATE NAD MOVE
-    categories = $.parseJSON(localStorage.feeds);
+  function renderArticles(categories) {
 
     $(categories).each(function() {
-      renderArticles(this);
+
+      var $category = $(this);
+
+      $category.each(function() {
+
+        var $articles = $(this);
+
+        $category.each(function() {
+
+          $("body").append("<h3>" + item.title + "<h3>");
+          $("body").append(item.image);
+          $("body").append(item.pubdate);
+        });
+      });
     });
 
-    $newsItems.each(function(item) {
-      $("body").append("<h3>" + item.title + "<h3>");
-      $("body").append(item.image);
-      $("body").append(item.pubdate);
-    });
   }
 
   function downloadArticles () {
@@ -73,13 +80,22 @@ function(jQuery) {
     });
   }
 
-  function persistNews (newsSource) {
+  function persistNews(newsSource) {
 
-    var feeds = loadSavedArticles();
+    var
+      savedArticles = loadSavedArticles();
+      categoryKey = md5(newsSource.category),
+      articleKey = md5(newsSource.title);
 
-    var key = md5(newsSource.title);
-    feeds[key] = newsSource;
-    localStorage["feeds"] = JSON.stringify(feeds);
+      if (typeof savedArticles[categoryKey] == 'undefined') {
+        savedArticles[categoryKey] = {};
+        savedArticles[categoryKey].title = newsSource.category;
+      }
+
+    savedArticles[categoryKey][articleKey] = newsSource;
+
+    console.log(savedArticles);
+    localStorage.categories = JSON.stringify(savedArticles);
   }
 
   function buildArticles(categoryTitle, newsSourceTitle, feed) {
@@ -107,6 +123,8 @@ function(jQuery) {
         pubdate: $(this.description).find("pubdate")
       });
     });
+
+    return newsItems;
   }
 
   return {
