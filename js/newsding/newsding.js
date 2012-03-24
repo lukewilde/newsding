@@ -1,6 +1,6 @@
 $(function(){
-
   $.fn.newsding = function() {
+
     var
       base = this,
       categores = null,
@@ -9,62 +9,97 @@ $(function(){
         categories: $.parseJSON(localStorage.sources).categories
       };
 
-    // init();
-    downloadCategories();
+    // loadSavedArticles();
+    downloadArticles();
 
-    function init() {
+    function loadSavedArticles() {
 
-      $.parseJSON(localStorage.categories);
+      categories = $.parseJSON(localStorage.feeds);
 
       $(categories).each(function() {
-        renderSource(this);
+        renderArticles(this);
       });
     }
 
-    function renderSource(source) {
+    function renderArticles(category, $newsItems) {
 
-      source.each(function() {
-        var title = $(this).find("title").text();
-        var description = $(this).find("description").text();
-        var image = $(description).find("img");
-
-        $("body").append("<h3>" + title + "<h3>");
-        $("body").append(image);
+      $newsItems.each(function(item) {
+        $("body").append("<h3>" + item.title + "<h3>");
+        $("body").append(item.image);
+        $("body").append(item.pubdate);
       });
     }
 
-    function downloadCategories () {
+    function downloadArticles () {
       $(options.categories).each(function() {
 
         var category = this;
-        var sources = {};
 
-        $(this.items).each(function() {
+        $(category.items).each(function() {
+
+          var newsSource = this;
+
           $.ajax({
-            url: this.url,
+            url: newsSource.url,
             settings : {
               dataType : "xml"
             },
             success: function(feed) {
 
-              if (typeof localStorage.categories == "undefined") {
-                localStorage.categories = {};
-              }
+              var newsItems = buildArticles(category.title, newsSource.title, feed);
+              console.log(newsItems);
+              persistArticles(newsItems);
+              // renderArticles(category, newsSource.title, newsItems);
 
-              $feed = $(feed).find("item");
-
-              // Persistance in localStorage
-              localStorage.categories[this.url] = $feed.text();
-              console.log(localStorage.categories);
+              // console.log($feed.text());
               // Persistance in memory
-              categories[this.url] = $feed;
+              // categories[category.url] = $feed;
 
               // Update view.
-              renderSource($feed);
             }
           });
         });
       });
+    }
+
+    function persistArticles (category, key, newsItems) {
+      if (typeof localStorage.categories == "undefined") {
+        console.log("Creating local article storage");
+        localStorage["categories"] = [];
+      }
+
+      localStorage.categories[category] = "{ding}";
+      console.log(localStorage.categories[category]);
+      // localStorage.categories[category][key] = $(newsItems).serialize();
+    }
+
+    function buildArticles(categoryTitle, newsSourceTitle, feed) {
+
+      var $feed = $(feed).find("item"),
+      newsSource = {
+        title: newsSourceTitle,
+        category: categoryTitle,
+        items: extractArticles($feed)
+      };
+
+      return newsSource;
+    }
+
+    function extractArticles($feed) {
+
+      var newsItems = [];
+
+      $feed.each(function() {
+
+        newsItems.push({
+          title: $(this).find("title").text(),
+          description: $(this).find("description").text(),
+          image: $(this.description).find("img"),
+          pubdate: $(this.description).find("pubdate")
+        });
+      });
+
+      return newsItems;
     }
 
   };
