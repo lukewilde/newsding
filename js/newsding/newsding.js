@@ -46,9 +46,10 @@ $(function(){
             },
             success: function(feed) {
 
-              var newsItems = buildArticles(category.title, newsSource.title, feed);
-              console.log(newsItems);
-              persistArticles(newsItems);
+              var news = buildArticles(category.title, newsSource.title, feed);
+              // console.log($(newsItems).serialize());
+
+              persistArticles(news);
               // renderArticles(category, newsSource.title, newsItems);
 
               // console.log($feed.text());
@@ -62,34 +63,35 @@ $(function(){
       });
     }
 
-    function persistArticles (category, key, newsItems) {
-      if (typeof localStorage.categories == "undefined") {
-        console.log("Creating local article storage");
-        localStorage["categories"] = [];
-      }
+    function persistArticles (newsSource) {
+      // if (typeof localStorage.categories == "undefined") {
+      //   console.log("Creating local article storage");
+      //   localStorage["categories"] = [];
+      // }
 
-      localStorage.categories[category] = "{ding}";
-      console.log(localStorage.categories[category]);
+      localStorage[newsSource.title] = JSON.stringify(newsSource);
+      // console.log(localStorage[newsItems.title]);
+      // console.log(localStorage.categories[category]);
       // localStorage.categories[category][key] = $(newsItems).serialize();
     }
 
     function buildArticles(categoryTitle, newsSourceTitle, feed) {
 
-      var $feed = $(feed).find("item"),
-      newsSource = {
-        title: newsSourceTitle,
-        category: categoryTitle,
-        items: extractArticles($feed)
-      };
+      var $feedItems = $(feed).find("item"),
+        newsSource = {
+          title: newsSourceTitle,
+          category: categoryTitle,
+          items: extractArticles($feedItems)
+        };
 
       return newsSource;
     }
 
-    function extractArticles($feed) {
+    function extractArticles($feedItems) {
 
       var newsItems = [];
 
-      $feed.each(function() {
+      $feedItems.each(function() {
 
         newsItems.push({
           title: $(this).find("title").text(),
