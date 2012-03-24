@@ -3,8 +3,6 @@ require([
   '/js/lib/jquery-jfeed.js',
   '/js/newsding/newsding.js'
 ],
-function($) {
-  jQuery(function($){
-    $('body').newsding();
-  });
+function(jQuery, JFeed, NewsDing) {
+    NewsDing.init();
 });
