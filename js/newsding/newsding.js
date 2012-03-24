@@ -59,8 +59,6 @@ $(function(){
               // Persistance in memory
               categories[this.url] = $feed;
 
-              // console.log(this.url);
-
               // Update view.
               renderSource($feed);
             }
