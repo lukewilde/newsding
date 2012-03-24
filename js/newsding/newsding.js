@@ -12,21 +12,29 @@ function(jQuery) {
       categories: $.parseJSON(localStorage.sources).categories
     };
 
-    function init() {
-      // loadSavedArticles();
-      downloadArticles();
-    }
+  function init() {
+    // loadSavedArticles();
+    downloadArticles();
+  }
 
   function loadSavedArticles() {
+    // Load old data.
+    if (typeof localStorage.feeds !== 'undefined') {
+      return $.parseJSON(localStorage.feeds);
+    } else {
+    // Or create fresh object.
+      return {};
+    }
+  }
 
+  function renderArticles(category, $newsItems) {
+
+    // UDPATE NAD MOVE
     categories = $.parseJSON(localStorage.feeds);
 
     $(categories).each(function() {
       renderArticles(this);
     });
-  }
-
-  function renderArticles(category, $newsItems) {
 
     $newsItems.each(function(item) {
       $("body").append("<h3>" + item.title + "<h3>");
@@ -51,38 +59,23 @@ function(jQuery) {
           },
           success: function(feed) {
 
-            // console.log(feed);
-
             var news = buildArticles(category.title, newsSource.title, feed);
-            // console.log($(newsItems).serialize());
+            persistNews(news);
 
-            persistArticles(news);
-            // renderArticles(category, newsSource.title, newsItems);
-
-            // console.log($feed.text());
             // Persistance in memory
             // categories[category.url] = $feed;
 
             // Update view.
+            // renderArticles(news);
           }
         });
       });
     });
   }
 
-  function persistArticles (newsSource) {
+  function persistNews (newsSource) {
 
-    var feeds;
-    // console.log("persisting", newsSource);
-
-    if (typeof localStorage.feeds !== 'undefined') {
-      console.log('loading');
-      feeds = $.parseJSON(localStorage.feeds);
-
-    } else {
-      console.log('starting');
-      feeds = {};
-    }
+    var feeds = loadSavedArticles();
 
     var key = md5(newsSource.title);
     feeds[key] = newsSource;
@@ -97,8 +90,6 @@ function(jQuery) {
         category: categoryTitle,
         items: extractArticles($feedItems)
       };
-
-    // console.log("building", newsSource);
 
     return newsSource;
   }
