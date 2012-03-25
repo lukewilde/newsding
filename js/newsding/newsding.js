@@ -16,7 +16,7 @@ function(jQuery) {
     var articles = loadSavedArticles();
     renderArticles(articles);
 
-    // downloadArticles();
+    downloadArticles();
   }
 
   function loadSavedArticles() {
@@ -31,9 +31,6 @@ function(jQuery) {
 
   function renderArticles(categories) {
 
-
-
-      // console.log(categories);
     $.each(categories, function() {
 
       var feeds = this.feeds;
@@ -47,7 +44,7 @@ function(jQuery) {
         $.each(articles.items, function() {
 
           $("body").append("<h3>" + this.title + "<h3>");
-          $("body").append(this.image);
+          $("body").append($(this.image));
           // $("body").append("<span>" + this.description + "<span>");
         });
       });
@@ -73,11 +70,6 @@ function(jQuery) {
 
             var news = buildArticles(category.title, newsSource.title, feed);
             persistNews(news);
-
-            // Persistance in memory
-            // categories[category.url] = $feed;
-
-            // Update view.
             // renderArticles(news);
           }
         });
@@ -122,14 +114,15 @@ function(jQuery) {
 
     $feedItems.each(function() {
 
+      var description = $(this).find("description").text();
+
       newsItems.push({
         title: $(this).find("title").text(),
-        description: $(this).find("description").text(),
-        image: $(this.description).find("img"),
-        pubdate: $(this.description).find("pubdate")
+        description: description,
+        image: $("<span>" + description + "</span>").find("img").prop('outerHTML'),
+        pubdate: $(this).find("pubDate").text()
       });
     });
-
     return newsItems;
   }
 
