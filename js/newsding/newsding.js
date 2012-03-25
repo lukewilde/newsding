@@ -14,9 +14,11 @@ function(jQuery) {
 
   function init() {
     var articles = loadSavedArticles();
-    renderArticles(articles);
+    renderAllArticles(articles);
 
-    downloadArticles();
+    // console.log(articles);
+
+    // downloadArticles();
   }
 
   function loadSavedArticles() {
@@ -29,27 +31,35 @@ function(jQuery) {
     }
   }
 
-  function renderArticles(categories) {
+  function renderAllArticles(categories) {
+
+    // console.log(categories);
 
     $.each(categories, function() {
-
       var feeds = this.feeds;
-
-      $.each(feeds, function() {
-
-        var articles = this;
-
-        $("body").append("<h2>" + articles.title + "<h2>");
-
-        $.each(articles.items, function() {
-
-          $("body").append("<h3>" + this.title + "<h3>");
-          $("body").append($(this.image));
-          // $("body").append("<span>" + this.description + "<span>");
-        });
-      });
+        renderFeeds(feeds);
     });
 
+  }
+
+  function renderFeeds(feeds) {
+    // console.log(feeds);
+    $.each(feeds, function() {
+      var feed = this;
+
+      $("body").append("<h2>" + feed.title + "<h2>");
+
+      $.each(feed.items, function() {
+        // console.log(this);
+        renderArticle(this);
+      });
+    });
+  }
+
+  function renderArticle(article) {
+    $("body").append("<h3>" + article.title + "<h3>");
+    $("body").append($(article.image));
+    // $("body").append("<span>" + article.description + "<span>");
   }
 
   function downloadArticles () {
@@ -77,6 +87,9 @@ function(jQuery) {
     });
   }
 
+  /*
+   * NOTE: if space is needed, the category name is saved in each feed.
+   */
   function persistNews(newsSource) {
 
     var
@@ -84,15 +97,14 @@ function(jQuery) {
       categoryKey = md5(newsSource.category),
       articleKey = md5(newsSource.title);
 
-      if (typeof savedArticles[categoryKey] == 'undefined') {
-        savedArticles[categoryKey] = {};
-        savedArticles[categoryKey].title = newsSource.category;
-        savedArticles[categoryKey].feeds = {};
-      }
+    if (typeof savedArticles[categoryKey] == 'undefined') {
+      savedArticles[categoryKey] = {};
+      savedArticles[categoryKey].title = newsSource.category;
+      savedArticles[categoryKey].feeds = {};
+    }
 
     savedArticles[categoryKey].feeds[articleKey] = newsSource;
 
-    // console.log(savedArticles);
     localStorage.categories = JSON.stringify(savedArticles);
   }
 
