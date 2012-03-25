@@ -16,9 +16,7 @@ function(jQuery) {
     var articles = loadSavedArticles();
     renderAllArticles(articles);
 
-    // console.log(articles);
-
-    // downloadArticles();
+    // downloadAllarticles();
   }
 
   function loadSavedArticles() {
@@ -33,24 +31,19 @@ function(jQuery) {
 
   function renderAllArticles(categories) {
 
-    // console.log(categories);
-
     $.each(categories, function() {
       var feeds = this.feeds;
         renderFeeds(feeds);
     });
-
   }
 
   function renderFeeds(feeds) {
-    // console.log(feeds);
     $.each(feeds, function() {
       var feed = this;
 
       $("body").append("<h2>" + feed.title + "<h2>");
 
       $.each(feed.items, function() {
-        // console.log(this);
         renderArticle(this);
       });
     });
@@ -62,27 +55,28 @@ function(jQuery) {
     // $("body").append("<span>" + article.description + "<span>");
   }
 
-  function downloadArticles () {
+  function downloadAllarticles () {
     $(options.categories).each(function() {
+      downloadFeedsForCategory(this);
+    });
+  }
 
-      var category = this;
+  function downloadFeedsForCategory () {
+    $(category.items).each(function() {
 
-      $(category.items).each(function() {
+      var newsSource = this;
 
-        var newsSource = this;
+      $.ajax({
+        url: newsSource.url,
+        settings : {
+          dataType : "xml"
+        },
+        success: function(feed) {
 
-        $.ajax({
-          url: newsSource.url,
-          settings : {
-            dataType : "xml"
-          },
-          success: function(feed) {
-
-            var news = buildArticles(category.title, newsSource.title, feed);
-            persistNews(news);
-            // renderArticles(news);
-          }
-        });
+          var news = buildArticles(category.title, newsSource.title, feed);
+          persistNews(news);
+          // renderArticles(news);
+        }
       });
     });
   }
